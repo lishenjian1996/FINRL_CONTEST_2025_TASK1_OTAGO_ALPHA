@@ -1,5 +1,3 @@
-# FINRL_CONTEST_2025_TASK1_OTAGO_ALPHA
-
 For back testing:
 
 Because we modified input indicators for improve it's performance.
@@ -115,14 +113,28 @@ loaded_ppo.eval() # Set the model to evaluation mode
 ########################
 
 ########################
-# Test Model by using modified environment
+# Load the CPPO putcall model (for comparation with PPO)
+loaded_cppo = MLPActorCritic(observation_space=observation_space_putcall, action_space=action_space_putcall, hidden_sizes=(512, 512))
+loaded_cppo.load_state_dict(torch.load('./trained_models/agent_cppo_100_epochs_20k_steps_putcall.pth'))
+loaded_cppo.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+loaded_cppo.eval()  # Set the model to evaluation mode
+########################
+
+########################
+# Test Model by using modified environment (PPO)
 df_assets_ppo, df_account_value_ppo, df_actions_ppo, df_portfolio_distribution_ppo = DRL_prediction(act=loaded_ppo, environment=e_trade_gym_putcall)
 
 print("Test env state length:", len(e_trade_gym.state)) # should be 841
 print("Expected input dim for model:", loaded_ppo.pi.mu_net[0].in_features) # should be 1093
 ########################
 
+########################
+# Test Model by using modified environment (CPPO for comparation)
+df_assets_cppo, df_account_value_cppo, df_actions_cppo, df_portfolio_distribution_cppo = DRL_prediction(act=loaded_cppo, environment=e_trade_gym_putcall)
+########################
+
+
 Rest of code keeps the same with default code as the df_assets_ppo, df_account_value_ppo, df_actions_ppo, df_portfolio_distribution_ppo has been tested in the modified environment: e_trade_gym_putcall
 
-
+The modified backtest ipynb also attached in the repo for reference
 

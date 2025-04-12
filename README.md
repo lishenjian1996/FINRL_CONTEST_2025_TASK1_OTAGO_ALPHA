@@ -1,4 +1,4 @@
-For back testing:
+# For back testing:
 
 Because we modified input indicators for improve it's performance.
 
@@ -25,7 +25,7 @@ torch.backends.cudnn.benchmark = False
 
 #####################
 
-# === Create new dataset specifically for PPO model with 1093-dimensional state ===
+# Create new dataset specifically for PPO model with 1093-dimensional state
 trade_putcall = trade.copy()  # Create a copy of the original DataFrame
 
 # Ensure there are no missing values in the columns of interest
@@ -62,7 +62,7 @@ trade = trade.set_index('new_idx')
 
 #######################
 
-# === For PPO model with 1093-dimensional state ===
+# For PPO model with 1093-dimensional state
 stock_dimension_putcall = len(trade.tic.unique())
 state_space_putcall = 1 + 2 * stock_dimension_putcall + (len(INDICATORS) + 3) * stock_dimension_putcall  # 
 
